@@ -36,6 +36,7 @@ const CreateAttendance = () => {
           teacherId: localStorage.getItem("id"),
           latitude: location?.latitude,
           longitude: location?.longitude,
+          classBatch: values.classBatch,
         },
         {
           headers: {
@@ -49,12 +50,7 @@ const CreateAttendance = () => {
       .catch((error) => console.log(error));
   };
 
-  const getDistance = (
-    lat1: number,
-    lon1: number,
-    lat2: number,
-    lon2: number
-  ) => {
+  const getDistance = (lat1: number, lon1: number, lat2: number, lon2: number) => {
     if (lat1 === lat2 && lon1 === lon2) {
       return 0;
     }
@@ -62,9 +58,7 @@ const CreateAttendance = () => {
     const radlat2 = (Math.PI * lat2) / 180;
     const theta = lon1 - lon2;
     const radtheta = (Math.PI * theta) / 180;
-    let dist =
-      Math.sin(radlat1) * Math.sin(radlat2) +
-      Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+    let dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
     if (dist > 1) {
       dist = 1;
     }
@@ -111,20 +105,13 @@ const CreateAttendance = () => {
   return (
     <>
       <Head>
-        <title>Create Attendance - Present Ma'am</title>
+        <title>Create Attendance - Present Ma`am</title>
       </Head>
 
       {attendanceId !== 0 ? (
         <div className="flex flex-col w-full items-center h-screen justify-center">
-          <p className="mb-5 font-bold text-xl">
-            Time Remaining for the Attendance to close.
-          </p>
-          <CountdownCircleTimer
-            isPlaying
-            duration={900}
-            colors={["#004777", "#F7B801", "#A30000"]}
-            colorsTime={[7, 5, 2, 0]}
-          >
+          <p className="mb-5 font-bold text-xl">Time Remaining for the Attendance to close.</p>
+          <CountdownCircleTimer isPlaying duration={900} colors={["#004777", "#F7B801", "#A30000"]} colorsTime={[7, 5, 2, 0]}>
             {({ remainingTime }) => remainingTime}
           </CountdownCircleTimer>
           <Canvas
@@ -140,27 +127,11 @@ const CreateAttendance = () => {
       ) : (
         <div className="h-screen m-auto overflow-hidden">
           <div className="flex flex-col text-lg items-center mt-20 justify-between px-5">
-            <p className="font-bold text-center flex-1">
-              Hey, {teacherDetails?.name}! The Created Attendance will be active
-              for the next 15 minutes.
-            </p>
-            <p className="font-bold text-center flex-1">
-              After the attendance is created a QR Code will be displayed,
-              students can scan the QR Code to mark their attendance.
-            </p>
+            <p className="font-bold text-center flex-1">Hey, {teacherDetails?.name}! The Created Attendance will be active for the next 15 minutes.</p>
+            <p className="font-bold text-center flex-1">After the attendance is created a QR Code will be displayed, students can scan the QR Code to mark their attendance.</p>
           </div>
-          <Form
-            {...layout}
-            name="control-hooks"
-            onFinish={onFinish}
-            style={{ maxWidth: 600 }}
-            className="mx-auto mt-24 flex justify-center flex-col"
-          >
-            <Form.Item
-              name="classYear"
-              label="Class Year"
-              rules={[{ required: true }]}
-            >
+          <Form {...layout} name="control-hooks" onFinish={onFinish} style={{ maxWidth: 600 }} className="mx-auto mt-24 flex justify-center flex-col">
+            <Form.Item name="classYear" label="Class Year" rules={[{ required: true }]}>
               <Select placeholder="Select a class year" allowClear>
                 <Option value="BE">BE</Option>
                 <Option value="TE">TE</Option>
@@ -168,68 +139,43 @@ const CreateAttendance = () => {
                 <Option value="FE">FE</Option>
               </Select>
             </Form.Item>
-            <Form.Item
-              name="classDept"
-              label="Class Department"
-              rules={[{ required: true }]}
-            >
+            <Form.Item name="classDept" label="Class Department" rules={[{ required: true }]}>
               <Select placeholder="Select a class dept" allowClear>
-                <Option value="Computer Engineering">
-                  Computer Engineering
-                </Option>
-                <Option value="Information Teachnolgy">
-                  Information-Teachnolgy
-                </Option>
-                <Option value="Electronics And Telecommunication Engineering">
-                  Electronics & Telecommunication Engineering
-                </Option>
-                <Option value="Mechanical Engineering">
-                  Mechanical Engineering
-                </Option>
-                <Option value="Electrical Engineering">
-                  Electrical Engineering
-                </Option>
-                <Option value="Production Engineering">
-                  Production Engineering
-                </Option>
-                <Option value="Chemical Engineering">
-                  Chemical Engineering
-                </Option>
-                <Option value="BioTechnology Engineering">
-                  BioTechnology Engineering
-                </Option>
-                <Option value="FirstYear Engineering">
-                  FirstYear Engineering
-                </Option>
+                <Option value="Computer Engineering">Computer Engineering</Option>
+                <Option value="Information Teachnolgy">Information-Teachnolgy</Option>
+                <Option value="Electronics And Telecommunication Engineering">Electronics & Telecommunication Engineering</Option>
+                <Option value="Mechanical Engineering">Mechanical Engineering</Option>
+                <Option value="Electrical Engineering">Electrical Engineering</Option>
+                <Option value="Production Engineering">Production Engineering</Option>
+                <Option value="Chemical Engineering">Chemical Engineering</Option>
+                <Option value="BioTechnology Engineering">BioTechnology Engineering</Option>
+                <Option value="FirstYear Engineering">FirstYear Engineering</Option>
               </Select>
             </Form.Item>
-            <Form.Item
-              label="Class Division"
-              name="classDivision"
-              rules={[{ required: true }]}
-            >
-              <InputNumber min={1} />
+            <Form.Item label="Class Division" name="classDivision" rules={[{ required: true }]}>
+              <Select placeholder="Select a class division" allowClear>
+                <Option value="A">A</Option>
+                <Option value="B">B</Option>
+                <Option value="C">C</Option>
+                <Option value="D">D</Option>
+              </Select>
             </Form.Item>
-            <Form.Item
-              name="subject"
-              label="Subject"
-              rules={[{ required: true }]}
-            >
+            <Form.Item name="subject" label="Subject" rules={[{ required: true }]}>
               <Input />
             </Form.Item>
-            <Form.Item
-              name="duration"
-              label="Duration in minutes"
-              rules={[{ required: true }]}
-            >
+            <Form.Item name="duration" label="Duration in minutes" rules={[{ required: true }]}>
               <InputNumber min={1} />
             </Form.Item>
+            <Form.Item name="classBatch" label="Class Batch" rules={[{ required: true }]}>
+              <Select placeholder="Select a class batch" allowClear>
+                <Option value="A">A</Option>
+                <Option value="B">B</Option>
+                <Option value="C">C</Option>
+                <Option value="D">D</Option>
+              </Select>
+            </Form.Item>
             <Form.Item {...tailLayout}>
-              <Button
-                className="text-white bg-[#1677ff]"
-                type="primary"
-                htmlType="submit"
-              >
+              <Button className="text-white bg-[#1677ff]" type="primary" htmlType="submit">
                 Submit
               </Button>
             </Form.Item>
