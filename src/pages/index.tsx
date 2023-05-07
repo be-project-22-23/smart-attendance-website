@@ -43,11 +43,7 @@ export default function Home() {
   };
 
   useEffect(() => {
-    if (
-      localStorage.getItem("email") === null ||
-      localStorage.getItem("password") === null ||
-      localStorage.getItem("id") === null
-    ) {
+    if (localStorage.getItem("email") === null || localStorage.getItem("password") === null || localStorage.getItem("id") === null) {
       return;
     }
     router.push("/teacher");
@@ -59,7 +55,7 @@ export default function Home() {
       email: oldEmail,
       password: oldPassword,
     });
-  }, []);
+  }, [router]);
 
   return (
     <>
@@ -71,20 +67,8 @@ export default function Home() {
       </Head>
 
       <div className="flex flex-col justify-center align-center m-auto h-screen max-w-2xl">
-        <Image
-          src="./logo-white.svg"
-          alt="./logo-no-background.svg"
-          width={300}
-          height={300}
-          className="mx-auto"
-        />
-        <Form
-          ref={formRef}
-          name="normal_login"
-          className="login-form flex flex-col justify-center max-w-fit mx-auto"
-          initialValues={{ email: email, password: password }}
-          onFinish={onFinish}
-        >
+        <Image src="./logo-white.svg" alt="./logo-no-background.svg" width={300} height={300} className="mx-auto" />
+        <Form ref={formRef} name="normal_login" className="login-form flex flex-col justify-center max-w-fit mx-auto" initialValues={{ email: email, password: password }} onFinish={onFinish}>
           <Form.Item
             name="email"
             rules={[
@@ -98,28 +82,13 @@ export default function Home() {
               },
             ]}
           >
-            <Input
-              prefix={<UserOutlined className="site-form-item-icon" />}
-              placeholder="Email"
-              value={email}
-            />
+            <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Email" value={email} />
           </Form.Item>
-          <Form.Item
-            name="password"
-            rules={[{ required: true, message: "Please input your Password!" }]}
-          >
-            <Input
-              prefix={<LockOutlined className="site-form-item-icon" />}
-              type="password"
-              placeholder="Password"
-            />
+          <Form.Item name="password" rules={[{ required: true, message: "Please input your Password!" }]}>
+            <Input prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="Password" />
           </Form.Item>
           <Form.Item>
-            <Button
-              type="primary"
-              htmlType="submit"
-              className="login-form-button bg-[#1677ff] text-white flex justify-center mx-a"
-            >
+            <Button type="primary" htmlType="submit" className="login-form-button bg-[#1677ff] text-white flex justify-center mx-a">
               Log in
             </Button>
             <div className="mt-3">

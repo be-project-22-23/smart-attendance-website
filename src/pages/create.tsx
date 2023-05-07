@@ -36,7 +36,6 @@ const CreateAttendance = () => {
           teacherId: localStorage.getItem("id"),
           latitude: location?.latitude,
           longitude: location?.longitude,
-          classBatch: values.classBatch,
         },
         {
           headers: {
@@ -111,7 +110,7 @@ const CreateAttendance = () => {
       {attendanceId !== 0 ? (
         <div className="flex flex-col w-full items-center h-screen justify-center">
           <p className="mb-5 font-bold text-xl">Time Remaining for the Attendance to close.</p>
-          <CountdownCircleTimer isPlaying duration={900} colors={["#004777", "#F7B801", "#A30000"]} colorsTime={[7, 5, 2, 0]}>
+          <CountdownCircleTimer isPlaying duration={900} colors={["#004777", "#F7B801", "#A30000", "#000000"]} colorsTime={[7, 5, 2, 0]}>
             {({ remainingTime }) => remainingTime}
           </CountdownCircleTimer>
           <Canvas
@@ -165,14 +164,6 @@ const CreateAttendance = () => {
             </Form.Item>
             <Form.Item name="duration" label="Duration in minutes" rules={[{ required: true }]}>
               <InputNumber min={1} />
-            </Form.Item>
-            <Form.Item name="classBatch" label="Class Batch" rules={[{ required: true }]}>
-              <Select placeholder="Select a class batch" allowClear>
-                <Option value="A">A</Option>
-                <Option value="B">B</Option>
-                <Option value="C">C</Option>
-                <Option value="D">D</Option>
-              </Select>
             </Form.Item>
             <Form.Item {...tailLayout}>
               <Button className="text-white bg-[#1677ff]" type="primary" htmlType="submit">
