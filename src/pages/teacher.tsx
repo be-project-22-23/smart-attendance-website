@@ -2,10 +2,11 @@ import Head from "next/head";
 import React, { useEffect, useState } from "react";
 import { Button, DatePicker, Select, Table } from "antd";
 import { Dayjs } from "dayjs";
-import { defaultClassYear, defaultDepartment, getDownloadUrl } from "../utils/constants";
+import { defaultClassYear, defaultDepartment } from "../utils/constants";
 import axios from "axios";
 import type { ColumnsType } from "antd/es/table";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 const { RangePicker } = DatePicker;
 
@@ -60,9 +61,9 @@ const columns: ColumnsType<DataType> = [
     title: "Download Record",
     key: "downloadRecord",
     render: (_, record) => (
-      <a href={getDownloadUrl(record.attendanceId)} className="bg-[#1677ff] text-white px-3 rounded-lg py-2">
-        Download Record
-      </a>
+      <Link href={"report/" + record.attendanceId} className="bg-[#1677ff] text-white px-3 rounded-lg py-2">
+        See Record
+      </Link>
     ),
   },
 ];
